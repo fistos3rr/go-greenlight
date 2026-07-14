@@ -60,3 +60,11 @@ func (app *application) badRequestResponse(
 ) {
 	app.errorResponse(w, r, http.StatusBadRequest, err.Error())
 }
+
+func (app *application) failedValidationResponse(
+	w http.ResponseWriter,
+	r *http.Request,
+	errors map[string]string,
+) {
+	app.errorResponse(w, r, http.StatusUnprocessableEntity, errors)
+}

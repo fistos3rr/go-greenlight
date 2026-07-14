@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/fistos3rr/go-greenlight/internal/data"
+	"github.com/fistos3rr/go-greenlight/internal/validator"
 )
 
 func (app *application) showMovieHandler(
@@ -47,6 +48,20 @@ func (app *application) createMovieHandler(
 	err := app.readJSON(w, r, &input)
 	if err != nil {
 		app.badRequestResponse(w, r, err)
+		return
+	}
+
+	movie := &data.Movie{
+		Title: input.Title,
+		Year: input.Year,
+		Runtime: input.Runtime,
+		Genres: input.Genres,
+	}
+
+	v := validator.New()
+
+	if data.ValidateMovie(v, movie); !v.Valid() {
+		app.failedValidationResponse(w, r, v.Errors)
 		return
 	}
 
