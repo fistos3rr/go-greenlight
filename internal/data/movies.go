@@ -1,27 +1,43 @@
 package data
 
-import "time"
+import (
+	"encoding/json"
+	"fmt"
+	"time"
+)
 
 type Movie struct {
-	// Unique integer ID for the movie
-	ID int64 `json:"id"`
+	ID        int64
+	CreatedAt time.Time
+	Title     string
+	Year      int32
+	Runtime   int32
+	Genres    []string
+	Version   int32
+}
 
-	// Timestamp for when the movie is added to database
-	CreatedAt time.Time `json:"-"`
+func (m Movie) MarshalJSON() ([]byte, error) {
+	var runtime string
 
-	// Movie title
-	Title string `json:"title"`
+	if m.Runtime != 0 {
+		runtime = fmt.Sprintf("%d mins", m.Runtime)
+	}
 
-	// Movie release year
-	Year int32 `json:"year,omitempty"`
+	aux := struct {
+		ID      int64    `json:"id"`
+		Title   string   `json:"title"`
+		Year    int32    `json:"year,omitempty"`
+		Runtime string   `json:"runtime,omitempty"`
+		Genres  []string `json:"genres,omitempty"`
+		Version int32    `json:"version"`
+	}{
+		ID:      m.ID,
+		Title:   m.Title,
+		Year:    m.Year,
+		Runtime: runtime,
+		Genres:  m.Genres,
+		Version: m.Version,
+	}
 
-	// Movie runtime (in minutes)
-	Runtime int32 `json:"runtime,omitempty,string"`
-
-	// Slice of genres for the movie (romance, comedy, etc.)
-	Genres []string `json:"genres,omitempty"`
-
-	// The version number starts a 1 and will be incremented each
-	// time the movie information is updated
-	Version int32 `json:"version"`
+	return json.Marshal(aux)
 }
