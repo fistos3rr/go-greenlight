@@ -38,9 +38,7 @@ func main() {
 	flag.StringVar(&cfg.env, "env", "development",
 		"Environment (development|staging|production)")
 
-	// dsn hardcoded instead of using envvar (lazy for os.Getenv)
-	flag.StringVar(&cfg.db.dsn, "db-dsn",
-		"postgres://greenlight:password@localhost/greenlight?sslmode=disable",
+	flag.StringVar(&cfg.db.dsn, "db-dsn", os.Getenv("GREENLIGHT_DB_DSN"),
 		"PostgreSQL DSN")
 
 	flag.IntVar(&cfg.db.maxOpenConns, "db-max-open-conns", 25,
