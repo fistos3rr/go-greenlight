@@ -8,7 +8,7 @@ import (
 func (app *application) logError(r *http.Request, err error) {
 	app.logger.PrintError(err, map[string]string{
 		"request_method": r.Method,
-		"request_url": r.URL.String(),
+		"request_url":    r.URL.String(),
 	})
 }
 
@@ -51,7 +51,7 @@ func (app *application) methodNotAllowedResponse(
 	w http.ResponseWriter,
 	r *http.Request,
 ) {
-	message := fmt.Sprintf("the %s method is " +
+	message := fmt.Sprintf("the %s method is "+
 		"not supported for this resoure", r.Method)
 	app.errorResponse(w, r, http.StatusMethodNotAllowed, message)
 }

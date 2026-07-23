@@ -187,8 +187,8 @@ func (app *application) listMoviesHandler(
 	r *http.Request,
 ) {
 	var input struct {
-		Title    string
-		Genres   []string
+		Title  string
+		Genres []string
 		data.Filters
 	}
 
@@ -200,7 +200,7 @@ func (app *application) listMoviesHandler(
 	input.Page = app.readInt(qs, "page", 1, v)
 	input.PageSize = app.readInt(qs, "page_size", 20, v)
 	input.Sort = app.readString(qs, "sort", "id")
-	input.SortSafelist = []string{"id", "title", "year", "runtime", 
+	input.SortSafelist = []string{"id", "title", "year", "runtime",
 		"-id", "-title", "-year", "-runtime"}
 
 	if data.ValidateFilters(v, input.Filters); !v.Valid() {
@@ -213,7 +213,7 @@ func (app *application) listMoviesHandler(
 		app.serverErrorResponse(w, r, err)
 		return
 	}
-	
+
 	err = app.writeJSON(w, http.StatusOK, envelope{"movies": movies, "metadata": metadata}, nil)
 	if err != nil {
 		app.serverErrorResponse(w, r, err)

@@ -158,8 +158,8 @@ func (m MovieModel) Delete(id int64) error {
 }
 
 func (m MovieModel) GetAll(
-	title string, 
-	genres []string, 
+	title string,
+	genres []string,
 	filters Filters,
 ) ([]*Movie, Metadata, error) {
 	query := fmt.Sprintf(`
@@ -208,7 +208,7 @@ func (m MovieModel) GetAll(
 		return nil, Metadata{}, err
 	}
 
-	metadata := calculateMetadata(totalRecords, filters.Page, filters.PageSize) 
+	metadata := calculateMetadata(totalRecords, filters.Page, filters.PageSize)
 
 	return movies, metadata, nil
 }
