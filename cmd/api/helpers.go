@@ -51,7 +51,7 @@ func (app *application) writeJSON(
 
 func (app *application) readJSON(
 	w http.ResponseWriter,
-	r *http.Request, 
+	r *http.Request,
 	dst any,
 ) error {
 	maxBytes := 1_048_576
@@ -88,7 +88,7 @@ func (app *application) readJSON(
 				"body contains incorrect JSON type (at character %d)",
 				unmarshalTypeError.Offset,
 			)
-			
+
 		case errors.Is(err, io.EOF):
 			return errors.New("body must not be empty")
 
@@ -122,8 +122,8 @@ func (app *application) readJSON(
 // readString() func returns a string value from the query string,
 // or the provided defalt value if no key could be found.
 func (app *application) readString(
-	qs url.Values, 
-	key string, 
+	qs url.Values,
+	key string,
 	defaultValue string,
 ) string {
 	s := qs.Get(key)
@@ -174,4 +174,19 @@ func (app *application) readInt(
 	}
 
 	return i
+}
+
+// background() func accepts function as a parameter
+// recovers it from panic
+
+func (app *application) background(fn func()) {
+	go func() {
+		defer func() {
+			if err := recover(); err != nil {
+				app.logger.PrintError(fmt.Errorf("%s", err), nil)
+			}
+		}()
+
+		fn()
+	}()
 }
