@@ -2,6 +2,7 @@ package data
 
 import (
 	"math"
+	"slices"
 	"strings"
 
 	"github.com/fistos3rr/go-greenlight/internal/validator"
@@ -15,10 +16,8 @@ type Filters struct {
 }
 
 func (f Filters) sortColumn() string {
-	for _, safeValue := range f.SortSafelist {
-		if f.Sort == safeValue {
-			return strings.TrimPrefix(f.Sort, "-")
-		}
+	if slices.Contains(f.SortSafelist, f.Sort) {
+		return strings.TrimPrefix(f.Sort, "-")
 	}
 
 	panic("unsafe sort parameter: " + f.Sort)

@@ -1,6 +1,8 @@
 // Package validator provides data validation
 package validator
 
+import "slices"
+
 import "regexp"
 
 var (
@@ -32,12 +34,7 @@ func (v *Validator) Check(ok bool, key, message string) {
 }
 
 func PermittedValue[T comparable](value T, permittedValues ...T) bool {
-	for i := range permittedValues {
-		if value == permittedValues[i] {
-			return true
-		}
-	}
-	return false
+	return slices.Contains(permittedValues, value)
 }
 
 func Matches(value string, rx *regexp.Regexp) bool {
