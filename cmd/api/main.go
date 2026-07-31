@@ -15,11 +15,14 @@ import (
 	"github.com/fistos3rr/go-greenlight/internal/data"
 	"github.com/fistos3rr/go-greenlight/internal/jsonlog"
 	"github.com/fistos3rr/go-greenlight/internal/mailer"
+	"github.com/fistos3rr/go-greenlight/internal/vcs"
 
 	_ "github.com/lib/pq"
 )
 
-const version = "1.0.0"
+var (
+	version = vcs.Version()
+)
 
 type config struct {
 	port int
