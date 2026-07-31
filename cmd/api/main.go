@@ -85,7 +85,7 @@ func main() {
 	flag.Func("cors-trusted-origins", "Trusted CORS origins (space separated)", func(val string) error {
 		cfg.cors.trustedOrigins = strings.Fields(val)
 		return nil
-	}
+	})
 
 	flag.Parse()
 
