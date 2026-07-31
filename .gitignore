@@ -1,2 +1,4 @@
 local_db/
 logfile
+.envrc
+bin/
